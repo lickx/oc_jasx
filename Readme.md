@@ -5,7 +5,7 @@ Wearing the JasX HUD is mandatory for this app to work.
 It works just like the stock outfits, but uses the JasX folder.  
 The commands are prefixed with j to not clash with stock oc_rlvsuite:  
 
-\<prefix\>jwear <outfitname>     switches outfits to \<JasX\/<outfitname\>  
+\<prefix\>jwear <outfitname>     switches outfits to \<JasX\/\<outfitname\>  
 \<prefix\>joutfits               offers a list of Jasx outfits to choose from  
 
 Additionally there is:  
