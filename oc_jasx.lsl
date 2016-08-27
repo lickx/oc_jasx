@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////
 //                                                                          //
-//  OpenCollar App for outfit switching using the JasX outfit system        //
-//                                                                          //
+//  OpenCollar six app for switching outfits using the JasX outfit system   //
+//  160827.1                                                                //
 // ------------------------------------------------------------------------ //
 //  Copyright (c) 2016 - Lotek Ixtar                                        //
 // ------------------------------------------------------------------------ //
@@ -54,10 +54,10 @@ integer LINK_DIALOG         = 3;
 //integer LINK_RLV            = 4;
 integer LINK_SAVE           = 5;
 integer LINK_UPDATE = -10;
-integer LM_SETTING_SAVE = 2000;
+//integer LM_SETTING_SAVE = 2000;
 //integer LM_SETTING_REQUEST = 2001;
-integer LM_SETTING_RESPONSE = 2002;
-integer LM_SETTING_DELETE = 2003;
+//integer LM_SETTING_RESPONSE = 2002;
+//integer LM_SETTING_DELETE = 2003;
 
 integer MENUNAME_REQUEST = 3000;
 integer MENUNAME_RESPONSE = 3001;
@@ -68,9 +68,6 @@ integer DIALOG_RESPONSE = -9001;
 integer DIALOG_TIMEOUT = -9002;
 integer g_iAuth;
 
-integer g_iLastRank = CMD_EVERYONE ;
-integer g_iOn = FALSE;
-
 key g_kWearer;
 string g_sSettingToken = "jasx_";
 //string g_sGlobalToken = "global_";
@@ -78,9 +75,9 @@ string g_sSettingToken = "jasx_";
 list g_lMenuIDs;  //three strided list of avkey, dialogid, and menuname
 integer g_iMenuStride = 3;
 
-string DRESS = "Dress up";
-string UNDRESS = "Dress down";
-string NUDE = "Get nude";
+//string DRESS = "Dress up";
+//string UNDRESS = "Dress down";
+//string NUDE = "Get nude";
 string BACKMENU = "⏎";
 string UPMENU = "BACK";
 
@@ -178,80 +175,40 @@ UserCommand(integer iAuth, string sStr, key kAv, integer bFromMenu) {
     string sAction = llToLower(llList2String(lParams, 1));
     string sLowerStr = llToLower(sStr);
     if (sLowerStr == "menu jasx" || sLowerStr == "jasx") {
-        string ON_OFF ;
+//        string ON_OFF ;
         string sPrompt;
         sPrompt = "\n[http://www.opencollar.at/titler.html Titler]\t"+g_sAppVersion+"\n\n";
-        if(g_iOn == TRUE) ON_OFF = "ON" ;
-        else ON_OFF = "OFF" ;
-//        if (g_iDressRestricted)
-//            llMessageLinked(LINK_DIALOG,NOTIFY,"0"+"Oops! Outfits can't be worn while the ability to dress is restricted.",kID);
-//        else
-            //Dialog(kAv, sPrompt, [SET,UP,DN,ON_OFF,"Color"], [UPMENU],0, iAuth,"main");
-            JasxMainMenu(kAv, iAuth);
+//        if(g_iOn == TRUE) ON_OFF = "ON" ;
+//        else ON_OFF = "OFF" ;
+        JasxMainMenu(kAv, iAuth);
         return;
     } else if (sLowerStr == "joutfits" || sLowerStr == "menu joutfits") {
         JasxOutfitsMenu(kAv, iAuth);
         return;
     } else if ( (sLowerStr == "nude" || sLowerStr == "menu nude") &&
                 (iAuth >= CMD_OWNER && iAuth <= CMD_TRUSTED)) {
-//        if (g_iDressRestricted)
-//            llMessageLinked(LINK_DIALOG,NOTIFY,"0"+"Oops! Outfits can't be worn while the ability to dress is restricted.",kID);
-//        else
-            JasxActionMenu(kAv, iAuth, "nude", "jasxnude");
-//        return;
+        JasxActionMenu(kAv, iAuth, "nude", "jasxnude");
     } else if ( (sLowerStr == "undress" || sLowerStr == "menu undress") &&
                 (iAuth >= CMD_OWNER && iAuth <= CMD_TRUSTED)) {
-//        if (g_iDressRestricted)
-//            llMessageLinked(LINK_DIALOG,NOTIFY,"0"+"Oops! Outfits can't be worn while the ability to dress is restricted.",kID);
-//        else
-            JasxActionMenu(kAv, iAuth, "unworn", "jasxundress");
-//        return;
+        JasxActionMenu(kAv, iAuth, "unworn", "jasxundress");
     } else if (sLowerStr == "dress" || sLowerStr == "menu dress") {
-//        if (g_iDressRestricted)
-//            llMessageLinked(LINK_DIALOG,NOTIFY,"0"+"Oops! Outfits can't be worn while the ability to dress is restricted.",kID);
-//        else
-            JasxActionMenu(kAv, iAuth, "worn", "jasxdress");
-//        return;
+        JasxActionMenu(kAv, iAuth, "worn", "jasxdress");
     } else if (llSubStringIndex(sStr,"jwear ") == 0) {
-//        if (g_iDressRestricted)
-//            llMessageLinked(LINK_DIALOG,NOTIFY,"0"+"Oops! Outfits can't be worn while the ability to dress is restricted.",kID);
-//        else {
-            sLowerStr = llDeleteSubString(sStr,0,llStringLength("jwear ")-1);
-            if (sLowerStr) { //we have a folder to try find...
-                llSetTimerEvent(g_iTimeOut);
-                g_iListener = llListen(g_iFolderRLVSearch, "", g_kWearer, "");
-                g_kMenuClicker = kAv;
-//                if (g_iRlvaOn) {
-//                    llOwnerSay("@findfolders:"+sLowerStr+"="+(string)g_iFolderRLVSearch);
-//                }
-//                else {
-                    llOwnerSay("@findfolder:"+sLowerStr+"="+(string)g_iFolderRLVSearch);
-//                }
-            }
-//        }
+        sLowerStr = llDeleteSubString(sStr,0,llStringLength("jwear ")-1);
+        if (sLowerStr) { //we have a folder to try find...
+            llSetTimerEvent(g_iTimeOut);
+            g_iListener = llListen(g_iFolderRLVSearch, "", g_kWearer, "");
+            g_kMenuClicker = kAv;
+//          if (g_iRlvaOn) {
+//              llOwnerSay("@findfolders:"+sLowerStr+"="+(string)g_iFolderRLVSearch);
+//          }
+//          else {
+                llOwnerSay("@findfolder:"+sLowerStr+"="+(string)g_iFolderRLVSearch);
+//          }
+        }
         if (bFromMenu) JasxOutfitsMenu(kAv, iAuth);
         return;
-    }
-/*
-    } else if (sCommand == "title") {
-        integer iIsCommand;
-        if (llGetListLength(lParams) <= 2) iIsCommand = TRUE;
-        if (g_iOn && iAuth > g_iLastRank) //only change text if commander has same or greater auth
-            llMessageLinked(LINK_DIALOG,NOTIFY,"0"+"You currently have not the right to change this setting, someone with a higher rank set it!",kAv);
-        else if (sAction == "on") {
-            g_iLastRank = iAuth;
-            g_iOn = TRUE;
-            llMessageLinked(LINK_SAVE, LM_SETTING_SAVE, g_sSettingToken+"on="+(string)g_iOn, "");
-            llMessageLinked(LINK_SAVE, LM_SETTING_SAVE, g_sSettingToken+"auth="+(string)g_iLastRank, "");  // save lastrank to DB
-        } else if (sAction == "off" && iIsCommand) {
-            g_iLastRank = CMD_EVERYONE;
-            g_iOn = FALSE;
-            llMessageLinked(LINK_SAVE, LM_SETTING_DELETE, g_sSettingToken+"on", "");
-            llMessageLinked(LINK_SAVE, LM_SETTING_DELETE, g_sSettingToken+"auth", ""); // del lastrank from DB
-        }
-    }
-    */
-    else if (sStr == "rm jasx") {
+    } else if (sStr == "rm jasx") {
             if (kAv!=g_kWearer && iAuth!=CMD_OWNER) llMessageLinked(LINK_DIALOG,NOTIFY,"0"+"%NOACCESS%",kAv);
             else ConfirmDeleteMenu(kAv, iAuth);
     }
@@ -269,15 +226,7 @@ default{
         if (iNum >= CMD_OWNER && iNum <= CMD_WEARER) UserCommand(iNum, sStr, kID, FALSE);
         else if (iNum == MENUNAME_REQUEST && sStr == g_sParentMenu)
             llMessageLinked(iSender, MENUNAME_RESPONSE, g_sParentMenu + "|" + g_sSubMenu, "");
-        else if (iNum == LM_SETTING_RESPONSE) {
-            string sGroup = llGetSubString(sStr, 0,  llSubStringIndex(sStr, "_") );
-            string sToken = llGetSubString(sStr, llSubStringIndex(sStr, "_")+1, llSubStringIndex(sStr, "=")-1);
-            string sValue = llGetSubString(sStr, llSubStringIndex(sStr, "=")+1, -1);
-            if (sGroup == g_sSettingToken) {
-                if(sToken == "on") g_iOn = (integer)sValue;
-                if(sToken == "auth") g_iLastRank = (integer)sValue; // restore lastrank from DB
-            }
-        } else if (iNum == DIALOG_RESPONSE) {
+        else if (iNum == DIALOG_RESPONSE) {
             integer iMenuIndex = llListFindList(g_lMenuIDs, [kID]);
             if (~iMenuIndex) {
                 string sMenuType = llList2String(g_lMenuIDs, iMenuIndex + 1);
@@ -288,11 +237,7 @@ default{
                 integer iPage = (integer)llList2String(lMenuParams, 2);
                 integer iAuth = (integer)llList2String(lMenuParams, 3);
                 if (sMenuType == "jasxmain") { 
-//                    if (sMessage == SET) UserCommand(iAuth, "titler box", kAv);
-//                    else if (sMessage == "Color") UserCommand(iAuth, "menu titler color", kAv);
                     if (sMessage == UPMENU) llMessageLinked(LINK_ROOT, iAuth, "menu " + g_sParentMenu, kAv);
-//                    if (sMessage == BACKMENU)
-//                        llMessageLinked(LINK_RLV, iAuth, "menu "+COLLAR_PARENT_MENU, kAv);
                     else if (sMessage == "Get Nude") JasxActionMenu(kAv, iAuth, "nude", "jasxnude");
                     else if (sMessage == "Undress") JasxActionMenu(kAv, iAuth, "unworn", "jasxundress");
                     else if (sMessage == "Dress") JasxActionMenu(kAv, iAuth, "worn", "jasxdress");
@@ -305,7 +250,6 @@ default{
                 } else if (sMenuType == "folder" || sMenuType == "multimatch") {
                     g_kMenuClicker = kAv;
                     if (sMessage == UPMENU)
-//                        llMessageLinked(LINK_RLV, iAuth, "menu jasx", kAv);
                         llMessageLinked(LINK_THIS, iAuth, "menu jasx", kAv);
                     else if (sMessage == BACKMENU) {
                         list lTempSplit = llParseString2List(g_sCurrentPath,["/"],[]);
@@ -327,18 +271,7 @@ default{
                         g_iListener = llListen(g_iFolderRLV, "", llGetOwner(), "");
                         llOwnerSay("@getinv:"+g_sCurrentPath+"="+(string)g_iFolderRLV);
                     }
-                }
-                    /*
-                    else if (sMenuType == "jasxmain") {
-//                    if (sMessage == BACKMENU)
-//                        llMessageLinked(LINK_RLV, iAuth, "menu "+COLLAR_PARENT_MENU, kAv);
-                    if (sMessage == "Get Nude") JasxActionMenu(kAv, iAuth, "nude", "jasxnude");
-                    else if (sMessage == "Undress") JasxActionMenu(kAv, iAuth, "unworn", "jasxundress");
-                    else if (sMessage == "Dress") JasxActionMenu(kAv, iAuth, "worn", "jasxdress");
-                    else if (sMessage == "Outfits") JasxOutfitsMenu(kAv, iAuth);
-                } 
-                    */
-                else if (sMenuType == "jasxnude") {
+                } else if (sMenuType == "jasxnude") {
                     if (sMessage == UPMENU) {
                         llMessageLinked(LINK_THIS, iAuth, "menu jasx", kAv);
                         return;
