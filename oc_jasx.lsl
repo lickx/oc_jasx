@@ -175,11 +175,8 @@ UserCommand(integer iAuth, string sStr, key kAv, integer bFromMenu) {
     string sAction = llToLower(llList2String(lParams, 1));
     string sLowerStr = llToLower(sStr);
     if (sLowerStr == "menu jasx" || sLowerStr == "jasx") {
-//        string ON_OFF ;
         string sPrompt;
-        sPrompt = "\n[http://www.opencollar.at/titler.html Titler]\t"+g_sAppVersion+"\n\n";
-//        if(g_iOn == TRUE) ON_OFF = "ON" ;
-//        else ON_OFF = "OFF" ;
+        sPrompt = "\nJasX App\t"+g_sAppVersion+"\n\n";
         JasxMainMenu(kAv, iAuth);
         return;
     } else if (sLowerStr == "joutfits" || sLowerStr == "menu joutfits") {
@@ -191,9 +188,11 @@ UserCommand(integer iAuth, string sStr, key kAv, integer bFromMenu) {
     } else if ( (sLowerStr == "undress" || sLowerStr == "menu undress") &&
                 (iAuth >= CMD_OWNER && iAuth <= CMD_TRUSTED)) {
         JasxActionMenu(kAv, iAuth, "unworn", "jasxundress");
-    } else if (sLowerStr == "dress" || sLowerStr == "menu dress") {
+    } else if ( (sLowerStr == "dress" || sLowerStr == "menu dress") &&
+                (iAuth >= CMD_OWNER && iAuth <= CMD_TRUSTED)) {
         JasxActionMenu(kAv, iAuth, "worn", "jasxdress");
-    } else if (llSubStringIndex(sStr,"jwear ") == 0) {
+    } else if ( (llSubStringIndex(sStr,"jwear ") == 0) &&
+                (iAuth >= CMD_OWNER && iAuth <= CMD_TRUSTED)) {
         sLowerStr = llDeleteSubString(sStr,0,llStringLength("jwear ")-1);
         if (sLowerStr) { //we have a folder to try find...
             llSetTimerEvent(g_iTimeOut);
