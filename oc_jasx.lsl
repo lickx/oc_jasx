@@ -88,8 +88,8 @@ key     g_kMenuClicker;
 
 //outfit vars
 integer g_iListener;
-integer g_iFolderRLV = 98745923;
-integer g_iFolderRLVSearch = 98745925;
+integer g_iFolderRLV = 98745023;
+integer g_iFolderRLVSearch = 98745025;
 integer g_iTimeOut = 30; //timeout on viewer response commands
 //integer g_iRlvOn = FALSE;
 //integer g_iRlvaOn = FALSE;
@@ -212,11 +212,11 @@ UserCommand(integer iAuth, string sStr, key kAv, integer bFromMenu) {
 //        else
             JasxActionMenu(kAv, iAuth, "worn", "jasxdress");
 //        return;
-    } else if (llSubStringIndex(sStr,"wear ") == 0) {
+    } else if (llSubStringIndex(sStr,"jwear ") == 0) {
 //        if (g_iDressRestricted)
 //            llMessageLinked(LINK_DIALOG,NOTIFY,"0"+"Oops! Outfits can't be worn while the ability to dress is restricted.",kID);
 //        else {
-            sLowerStr = llDeleteSubString(sStr,0,llStringLength("wear ")-1);
+            sLowerStr = llDeleteSubString(sStr,0,llStringLength("jwear ")-1);
             if (sLowerStr) { //we have a folder to try find...
                 llSetTimerEvent(g_iTimeOut);
                 g_iListener = llListen(g_iFolderRLVSearch, "", g_kWearer, "");
